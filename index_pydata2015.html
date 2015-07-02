@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Data-visualisation with Python and Javascript: Crafting a dataviz tool-chain for the web</title>
+
+		<meta name="description" content="Data-visualisation with Python and Javascript: Crafting a dataviz toolchain for the web">
+		<meta name="author" content="Kyran Dale">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="lib/css/kgd.css">
+                
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+                        
+		</script>
+
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Data-visualisation with Python and Javascript</h1>
+					<h2>Crafting a data-visualisation tool-chain for the web</h2>
+				        <h3>PyData-London 2015</h3>
+					<p>
+						<small>Created by <a href="http://kyrandale.com">Kyran Dale</a> / <a href="http://twitter.com/kyran_dale">@kyran_dale</a></small>
+					</p>
+				</section>
+
+                                <section>
+                                  <h2>Got it Covered</h2>
+                                  <h3>Data, bees and stuff</h3>
+                                  <img src="media/images/pyjsbook_cover.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Only When I Laugh</h2>
+                                  <h3>Detecting the pain points</h3>
+                                  <ul>
+                                    <li>Lovely Python GUIs lying unused and forgotten</li>
+                                    <li>Inevitable pressure towards data-viz on the web</li>
+                                    <li>Only one web-language and it isn't Python</li>
+                                    <li>If only I could join that web dataviz party...</li>
+                                  </ul>
+                                </section>
+
+                                <section>
+                                  <h2>Data(viz) Domains</h2>
+                                  <h3>Python and Javascript should be a great complement</h3>
+                                  <img src="media/images/pyjsdomains.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Bridging the Python-JS Divide</h2>
+                                  <h3>Here be dragons!</h3>
+                                  <img src="media/images/herebedragons_before.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Bridging the Python-JS Divide</h2>
+                                  <h3>Here be dragons!</h3>
+                                  <img src="media/images/herebedragons_after.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Bridging the Python-JS Divide</h2>
+                                  <h3>A lightweight shim</h3>
+                                  <ul>
+                                    <li>Small HTML5 skeleton plus a little CSS</li>
+                                    <li>Javascript Object Notation (JSON) for data-format</li>
+                                    <li>Small Flask RESTful API to deliver the data</li>
+                                    <li>Everything else just programming</li>
+                                    <li>Let's call it a One-page-app!</li>
+                                  </ul>
+                                </section>
+
+
+
+                                <!-- <section> -->
+                                <!--   <h2>All Hail the Bostock!</h2> -->
+                                <!--   <h3>We are not worthy</h3> -->
+                                <!--   <img src="media/images/bostock.jpeg" class="" alt="" style="" /> -->
+                                <!-- </section> -->
+                                <section>
+                                  <h2>The Exploration-presentation Axis</h2>
+                                  <h3>Yes, we are all data-visualisers!</h3>
+                                  <img src="media/images/explorevspresent_1.png" class="" alt="" style="" />
+                                </section>
+                                
+                                <section>
+                                  <h2>The Exploration-presentation Axis</h2>
+                                  <h3>Yes, we are all data-visualisers!</h3>
+                                  <img src="media/images/explorevspresent_2.png" class="" alt="" style="" />
+                                </section>
+
+                                
+                                <section data-background-iframe='demos/data-transformation/index.html'>
+                                  <!-- <h2>My Amazing New Visualisation</h2> -->
+                                  <!-- <iframe src='demos/data-transformation/index.html'></iframe> -->
+                                </section>
+
+                                <section>
+                                  <h2>My Amazing New Visualisation</h2>
+                                  <h3>The Web-dev shim</h3>
+                                  index.html
+                                  <pre class='small-code'><code data-trim>
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+  body{ background:#efefef }
+  
+  #chart{
+  margin:10px;
+  overflow:visible;
+  width:800px; height:600px;
+  }
+
+  .data-point{
+  font-size:12px;
+  }
+</style>
+
+<h1>My Amazing Visualisation</h1>
+<div id='control-buttons'></div>
+<svg id='chart'></svg>
+
+&lt;script src="http://d3js.org/d3.v3.min.js"></script>
+&lt;script src="script.js"></script>
+                                  </code></pre>
+                                </section>
+
+                                <section>
+                                  <h2>My Amazing New Visualisation</h2>
+                                  <h3>It's called programming</h3>
+                                  <pre class='vsmall-code'><code class='js'>    // A FEW CONSTS
+    var NUM_POINTS = 50;
+    var MAX_THETA = 2*Math.PI;
+    var DTHETA = MAX_THETA/NUM_POINTS;
+    var WIDTH=600, HEIGHT=600;
+    var i=0, data = [];
+    // ... 
+    for(i=0; i&lt;NUM_POINTS; i++){
+        var theta = i*DTHETA;
+        data.push({theta:theta, c: Math.cos(theta), s:Math.sin(theta)});
+    } 
+    // SET OUR SCALES USING D3 
+    var yScale = d3.scale.linear()
+        .domain([0, NUM_POINTS])
+        .range([0, HEIGHT]);
+    // ...
+    var dlines = d3.select('#chart').selectAll('data-line').data(data);
+    // ADD OUR DATA TO THE DOM 
+    dlines = dlines.enter().append('g')
+        .classed('data-point', true);
+
+    dlines.each(function(d, i) {
+        var s, c, t;
+        var g = d3.select(this);
+        s = g.append('text').classed('s', true).text(d.s.toPrecision(3));
+        c = g.append('text').classed('c', true).text(d.c.toPrecision(3));
+        t = g.append('text').classed('t', true).text(d.theta.toPrecision(3));
+    });
+    // OUR MAIN UPDATE FUNCTION 
+    kcharts.update = function(updateType) {
+        dlines.each(function(d,i){
+            var tr, tx, ty, cx, cy, sx, sy;
+            var g = d3.select(this);
+            switch(updateType){
+            case 'ordered':
+    // ... 
+            case 'orig':
+    // ... 
+            case 'alt': // USING D3 SCALES TO CREATE SIN+COSINE WAVES
+                tr = -45; tx = xThetaScale(d.theta); ty = HEIGHT+20;
+                cx = xThetaScale(d.theta); cy = yThetaScale(d.c);
+                sx = xThetaScale(d.theta); sy = yThetaScale(d.s);
+                break;
+            }
+    // ... APPLY TRANSITIONS
+            g.select('.t')
+                .transition().duration(3000)
+                .attr('transform', 'translate(' + tx + ',' + ty + ') rotate(' + tr + ')'); 
+    // ...
+        });
+    };
+    // ADD CONTROLS
+    d3.select('#control-buttons').selectAll('buttons')
+        .data(['ordered', 'orig', 'alt']).enter()
+        .append('button').text(function(d) {
+            return d;
+        })
+        .on('click', function(d) {
+            kcharts.update(d);
+        });
+    // SET DEFAULT 
+    kcharts.update('ordered');</code></pre>
+                                </section>
+
+                                <section>
+                                  <h2>The Joys of D3</h2>
+                                  <h3>Beyond the barchart</h3>
+                                  <ul>
+                                    <li>Implementation of Wilkinson's 'Grammar of Graphics' (cf. ggplot2)</li>
+                                    <li>Solid theoretical core makes it incredibly powerful and expressive</li>
+                                    <li>It flows where other libraries tend to lock-up</li>
+                                    <li>Perhaps the greatest genius of Mike Bostock was implementing it in Javascript (then considered a 'toy' language)</li>
+                                    <li>Not a charting library but the library you make charting libraries with </li>
+                                    <li>New forms of data-visualisation waiting to be discovered</li>
+                                  </ul>
+                                </section>
+
+                                <section>
+                                  <h2>The Dataviz Toolchain</h2>
+                                  <img src="media/images/toolchain.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Scraping Data with Scrapy</h2>
+                                  <img src="media/images/toolchain_scrape.png" class="" alt="" style="" />
+                                </section>
+
+<!-- TOOLCHAIN SECTION -->
+
+                                <section>
+                                  <h2>Scraping Data with Scrapy</h2>
+                                  <h3>Identify the targets</h3>
+                                  <img src="media/images/crick_bioimage.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Scraping Data with Scrapy</h2>
+                                  <h3>Send in the spider</h3>
+                                  <img src="media/images/crick_scrapy.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Scraping Data with Scrapy</h2>
+                                  <h3>Results</h3>
+                                  <ul>
+                                    <li>Nice array of JSON objects</li>
+                                    <li>But data probably dirty</li>
+                                    <li>Need to identify and remove anomalies such as duplicates, missing fields, formatting-errors etc..</li>
+                                    <li>Time for Pandas...</li>
+                                  </ul>
+                                </section>
+
+
+                                <section>
+                                  <h2>Cleaning Data with Pandas</h2>
+                                  <img src="media/images/toolchain_clean.png" class="" alt="" style="" />
+                                </section>
+                                
+
+                                <section>
+                                  <h2>Cleaning Data with Pandas</h2>
+                                  <h3>Load scraped JSON-array into a DataFrame</h3>
+                                  
+                                  <pre class='small-code'>
+                                    <code data-trim class='json'>
+[                                      
+  {
+    "category": "Physics",
+    "name": "Albert Einstein",
+    "gender": "male",
+    "place_of_birth": "Ulm ,  Baden-W\u00fcrttemberg ,German Empire",
+    "date_of_death": "1955-04-18",
+    ...
+},
+...
+]
+                                    </code>
+                                  </pre>
+                                  <pre><code data-trim class='python'>
+import pandas as pd
+
+df = pd.read_json(open('data/nobel_winners.json'))
+                                  </code></pre>
+                                </section>
+                                      
+                                
+                                <section>
+                                  <h2>Cleaning Data with Pandas</h2>
+                                  <h3>Missing Fields</h3>
+                                  <pre class='small-code'><code data-trim>df.info
+&lt;class 'pandas.core.frame.DataFrame'&gt;
+Float64Index: 1052 entries, 0.0 to 999.0
+Data columns (total 12 columns):
+born_in           1052 non-null object
+category          1052 non-null object
+date_of_birth     1044 non-null object
+date_of_death     1044 non-null object
+gender            1041 non-null object
+link              1052 non-null object
+name              1052 non-null object
+nationality       1052 non-null object
+place_of_birth    1044 non-null object
+place_of_death    1044 non-null object
+text              1052 non-null object
+year              1052 non-null int64
+dtypes: int64(1), object(11)
+memory usage: 106.8 KB</code></pre>
+
+                                </section>
+
+                                <section>
+                                  <h2>Cleaning Data with Pandas</h2>
+                                  <h3>First pass filter, showing duplicates and missing data</h3>
+                                  <pre class='small-code'><code data-trim>
+In: df.describe(include=['object'])
+Out: 
+       born_in  category date_of_birth date_of_death gender  \
+count     1052      1052          1044          1044   1041   
+unique      40         7           853           563      2   
+top             Physio..    9 May 1947                 male   
+freq       910       250             4           362    983   
+
+                              link             name  \
+count                         1052             1052   
+unique                         893              998   
+top     http://eg/wiki/...                     Daniel Kahneman   
+freq                             4                2   
+
+          nationality place_of_birth place_of_death  \
+count            1052           1044           1044   
+unique             59            735            410   
+top     United States                                 
+freq              350             29            409   
+...
+                                  </code></pre>
+                                      
+                                </section>
+
+                                <section>
+                                  <h2>Cleaning Data with Pandas</h2>
+                                  <h3>Removing duplicates without prejudice</h3>
+                                  <pre class='small-code'><code data-trim class='python'>
+# shuffle the Dataframe's index to remove alphabetical order
+df = df.reindex(np.random.permutation(df.index)) 
+# drop all duplicates sharing 'name' and 'year'
+df = df.drop_duplicates(['name', 'year'])         
+# sort index to restore original row-order
+df = df.sort_index()                            
+                                  </code></pre>
+                                    
+                                </section>
+
+                                <section>
+                                  <h2>Cleaning Data with Pandas</h2>
+                                  <h3>Missing fields easily located</h3>
+                                  <pre class='small-code'><code data-trim class='python'>
+df[df.category.isnull()][['name', 'text']]
+# Out: 
+#               name                            text
+# 922  Alexis Carrel  Alexis Carrel , Medicine, 1912
+                                  </code></pre> 
+                                </section>
+                                
+                                <section>
+                                  <h2>Cleaning Data with Pandas</h2>
+                                  <h3>Dodgy date detection</h3>
+                                  <img src="media/images/dodgydates.png" class="" alt="" style="" />
+                                </section>
+
+                               <section>
+                                 <h2>Cleaning Data with Pandas</h2>
+                                 <h3>The worst stains removed</h3>
+                                 <pre><code data-trim>
+In: df.count()
+Out:
+category          858
+date_of_birth     858
+date_of_death     566
+gender            858
+link              858
+name              858
+nationality       858
+place_of_birth    831
+place_of_death    524
+text              858
+year              858
+dtype: int64 
+                                 </code></pre>
+                               </section>
+ 
+                                <section>
+                                  <h2>Exploring Data with Pandas</h2>
+                                  <img src="media/images/toolchain_explore.png" class="" alt="" style="" />
+                                </section>
+                                
+
+                                <section>
+                                  <h2>Exploring Data with Pandas</h2>
+                                  <h3>Questioning your dataset</h3>
+                                  <p>Whatever your motivation for the data-visualisation, you're ultimately looking for interesting stories to tell. The point of the visualisation is to impress these narratives upon the hominid visual cortex as effectively as possible.</br>Pandas is a great tool for exploring your data, finding the patterns and trends of interest, the nuggets that will inform your dataviz creation.</p>
+                                </section>
+
+                                <section>
+                                  <h2>Exploring Data with Pandas</h2>
+                                  <h3>Absolute prize-number by country</h3>
+                                  <img src="media/images/exploreNats.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Exploring Data with Pandas</h2>
+                                  <h3>Regional trends</h3>
+                                  <img src="media/images/exploreRegions.png" class="" alt="" style="" />
+                                </section>
+                                
+                                
+                                <section>
+                                  <h2>Exploring Data with Pandas</h2>
+                                  <h3>Gender disparities</h3>
+                                  <img src="media/images/exploreGender.png" class="" alt="" style="" />
+                                </section>
+
+                                
+                                <section>
+                                  <h2>Exploring Data with Pandas</h2>
+                                  <h3>Age of winners with Seaborn's distplot</h3>
+                                  <img src="media/images/exploreAwardAge.png" class="" alt="" style="" />
+                                </section>
+
+                                
+                                <section>
+                                  <h2>Exploring Data with Pandas</h2>
+                                  <h3>Life expectancy of winners</h3>
+                                  <img src="media/images/exploreLifeExpectancy.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Exploring Data with Pandas</h2>
+                                  <h3>Increasing longevity</h3>
+                                  <img src="media/images/exploreLifeExpectancyTrend.png" class="" alt="" style="" />
+                                </section>
+
+                                
+                                <section>
+                                  <h2>Exploring Data with Pandas</h2>
+                                  <h3>The Nobel diaspora</h3>
+                                  <img src="media/images/exploreDiaspora.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Imagining a Visualisation</h2>
+                                  <img src="media/images/imagine_complete.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Delivering Data with Flask</h2>
+                                  <img src="media/images/toolchain_deliver.png" class="" alt="" style="" />
+                                </section>
+                                
+                                <section>
+                                  <h2>RESTful Data with Flask</h2>
+                                  <h3>Rolling an API with Eve and MongDB</h3>
+                                  <img src="media/images/delivery.png" class="" alt="" style="" />
+                                 </section>
+                                
+                                <section>
+                                  <h2>A Language Bridge Cheatsheet</h2>
+                                  <img src="media/images/cheatsheet.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>A Language Bridge</h2>
+                                  <h3>Functional fiddling</h3>
+                                  <img src="media/images/functionalfiddle.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Shifting Bits</h2>
+                                  <h3>JS smokes Python for speed</h3>
+                                  <img src="media/images/JSsmokesPython.png" class="" alt="" style="" />
+                                </section>
+
+                                <section>
+                                  <h2>Transforming Data with D3</h2>
+                                  <img src="media/images/toolchain_transform.png" class="" alt="" style="" />
+                                </section>
+
+                                <section data-background-iframe='demos/nobel_viz/index.html'>
+                                </section>
+
+                                <section data-background-iframe='https://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_country'>
+                                </section>
+
+                                <section>
+                                  <h2>A Small HTML Backbone</h2>
+                                  <pre class='smaller-code'><code data-trim>
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+&lt;link rel="stylesheet" href="style.css" type="" media="screen" />
+&lt;body>
+  
+  <div id="nobel-ui"></div>
+  <div id='chart-holder' class='_dev'>
+    <div id="nobel-time"></div>
+    <div id="nobel-map"></div>
+    <div id="nobel-list">
+      <h2>Selected winners</h2>
+      <table>
+        <thead>
+          <tr><th id='year'>Year</th><th id='category'>Category</th><th id='name'>Name</th></tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div id="nobel-winner">
+      <div id="picbox"></div>
+      <div id='title'></div>
+      <div id='infobox'></div>
+      <div id='biobox'></div>
+      <div id='readmore'><a href='#'>Read more at Wikipedia</a></div>
+    </div>
+    <div id="nobel-bar"></div>
+  </div>
+    
+                                  </code></pre>
+                                </section>
+
+                                <section>
+                                  <h2>Fleshing the Skeleton</h2>
+                                  <h3>D3 and Javascript</h3>
+                                  <pre><code data-trim>
+
+&lt;script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+&lt;script src="http://d3js.org/d3.v3.min.js"></script>
+&lt;script src="http://d3js.org/topojson.v1.min.js"></script>
+&lt;script src="http://d3js.org/queue.v1.min.js"></script>
+&lt;script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+&lt;script src="lib/crossfilter.min.js"></script>
+
+&lt;script src="script_core.js" ></script>
+&lt;script src="script_ui.js" ></script>
+&lt;script src="script_map.js"></script>
+&lt;script src="script_bar.js"></script>
+&lt;script src="script_time.js"></script>
+&lt;script src="script_details.js"></script>
+&lt;script src="script.js"></script>
+
+                                  </code></pre>
+                                </section>
+
+
+
+                                <section>
+                                  <h2>Summary</h2>
+                                  <ul>
+                                    <li>Mediated by JSON, Python and Javascript are a great data-viz complement. </li>
+                                    <li>Very little 'web-dev' needed to start programming web-visualisations.</li>
+                                    <li>Exciting times - with powerful libraries like D3, a fast JS, getting faster, and approx. 100% device penetration, novel data-viz beckons.</li>
+                                    <li>So calling the new visualisation pioneers to follow in Minard's footsteps.</li>
+                                    <li>There will be tweets: @kyran_dale</li>
+                                    <li>And a mailing-list: http://kyrandale.com/blog/data-visualization-python-javascript/</li>
+                                  </ul>
+                                </section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+                <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+                        Reveal.addEventListener('slidechanged', function(event) {               
+                        if($(event.currentSlide).attr('data-background-iframe')) {
+                        $('.reveal > .backgrounds').css('z-index', 1);
+                } else {
+                $('.reveal > .backgrounds').css('z-index', 0);
+                }                  
+                });
+		</script>
+
+	</body>
+</html>
